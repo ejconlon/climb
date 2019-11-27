@@ -12,32 +12,12 @@ extra-source-files:
 description: Please see the README on GitHub at <https://github.com/ejconlon/climb#readme>
 
 dependencies:
-- base >= 4.12 && < 5
-- linenoise
-
-default-extensions:
-  - ConstraintKinds
-  - DataKinds
-  - DeriveFunctor
-  - DeriveFoldable
-  - DeriveGeneric
-  - DeriveTraversable
-  - FlexibleContexts
-  - FlexibleInstances
-  - FunctionalDependencies
-  - GADTs
-  - GeneralizedNewtypeDeriving
-  - KindSignatures
-  - LambdaCase
-  - MultiParamTypeClasses
-  - MultiWayIf
-  - NoImplicitPrelude
-  - OverloadedStrings
-  - Rank2Types
-  - TemplateHaskell
-  - TupleSections
-  - TypeApplications
-  - TypeFamilies
+- base >= 4.12
+- bytestring >= 0.10
+- exceptions >= 0.10
+- mtl >= 2.2
+- unliftio-core >= 0.1
+- linenoise >= 0.2
 
 ghc-options:
 - -Wall

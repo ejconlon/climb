@@ -1,7 +1,6 @@
 module Main where
 
-import Climb.Prelude (IO)
-import qualified Climb.Main
+import Climb
 
 main :: IO ()
-main = Climb.Main.main
+main = putStrLn "hi"
