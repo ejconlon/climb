@@ -1,0 +1,5 @@
+.stack-work/
+climb.cabal
+*~
+*.swo
+*.swp
