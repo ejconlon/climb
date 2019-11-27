@@ -13,17 +13,7 @@ description: Please see the README on GitHub at <https://github.com/ejconlon/cli
 
 dependencies:
 - base >= 4.12 && < 5
-# - bytestring
-# - containers
-# - free
-# - hashable
-# - lens
-# - mtl
-# - template-haskell
-# - text
-# - transformers
-# - unordered-containers
-# - vector
+- linenoise
 
 default-extensions:
   - ConstraintKinds
