@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | A GHCI-like REPL with colon-commands.
+-- | Building blocks for a GHCI-like REPL with colon-commands.
 module Climb
   ( Command
   , Completion
@@ -23,19 +23,26 @@ import Data.Typeable (Typeable)
 import qualified Data.ByteString.Char8 as BSC
 import Linenoise.Repl (ReplDirective (..), replM)
 
+-- | A 'Command' takes some input, performs some effect, and returns a directive (continue or quit).
 type Command m = ByteString -> m ReplDirective
 
+-- | List of 'Command's by name with help text.
 type OptionCommands m = [(ByteString, (ByteString, Command m))]
 
+-- | A 'Completion' takes some input and returns potential matches.
 type Completion m = ByteString -> m [ByteString]
 
+-- | Sometimes things go wrong...
 data CommandExc
   = ExpectedNoInputError
+  -- ^ An option 'Command' got input when it expected None
   | MissingCommandError !ByteString
+  -- ^ An option 'Command' was not found by name.
   deriving (Eq, Show, Typeable)
 
 instance Exception CommandExc
 
+-- | Defines a REPL with commands, options, and completion.
 data ReplDef m =
   ReplDef
     { _rdGreeting :: !ByteString
@@ -48,6 +55,7 @@ data ReplDef m =
 assertEmpty :: MonadThrow m => ByteString -> m ()
 assertEmpty input = unless (BSC.null input) (throwM ExpectedNoInputError)
 
+-- | Helps you define commands that expect no input.
 bareCommand :: MonadThrow m => m ReplDirective -> Command m
 bareCommand act input = assertEmpty input >> act
 
@@ -76,6 +84,7 @@ outerCommand opts exec = \input ->
         Just (_, command) -> command (BSC.drop 1 subInput)
     _ -> exec input
 
+-- | Runs a REPL as defined.
 runReplDef :: (MonadThrow m, MonadUnliftIO m) => ReplDef m -> m ()
 runReplDef (ReplDef greeting prompt opts exec comp) = do
   let allOpts = fix (\c -> defaultOptions c <> opts)
