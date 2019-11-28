@@ -5,4 +5,4 @@ packages:
 
 extra-deps:
 - github: ejconlon/haskell-linenoise
-  commit: 31bd4df2834a3314b420364777f5ec505e5b2b3f
+  commit: a4cbc07dfe3504812babf269e867cf29b8952675

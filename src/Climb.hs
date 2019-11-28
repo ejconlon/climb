@@ -45,7 +45,8 @@ instance Exception CommandExc
 -- | Defines a REPL with commands, options, and completion.
 data ReplDef m =
   ReplDef
-    { _rdGreeting :: !ByteString
+    { _rdOnInterrupt :: !ReplDirective
+    , _rdGreeting :: !ByteString
     , _rdPrompt :: !ByteString
     , _rdOptionCommands :: !(OptionCommands m)
     , _rdExecCommand :: !(Command m)
@@ -86,9 +87,9 @@ outerCommand opts exec = \input ->
 
 -- | Runs a REPL as defined.
 runReplDef :: (MonadThrow m, MonadUnliftIO m) => ReplDef m -> m ()
-runReplDef (ReplDef greeting prompt opts exec comp) = do
+runReplDef (ReplDef onInterrupt greeting prompt opts exec comp) = do
   let allOpts = fix (\c -> defaultOptions c <> opts)
       action = outerCommand allOpts exec
   liftIO (BSC.putStrLn greeting)
   liftIO (BSC.putStrLn "Enter `:quit` to exit or `:help` to see all commands.")
-  replM prompt action comp
+  replM onInterrupt prompt action comp

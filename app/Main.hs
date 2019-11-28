@@ -31,7 +31,8 @@ completion = const (pure [])
 
 replDef :: ReplDef Repl
 replDef = ReplDef
-  { _rdGreeting = "Hello, REPL!"
+  { _rdOnInterrupt = ReplContinue
+  , _rdGreeting = "Hello, REPL!"
   , _rdPrompt = "> "
   , _rdOptionCommands = options
   , _rdExecCommand = exec
