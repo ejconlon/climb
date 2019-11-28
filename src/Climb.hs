@@ -6,7 +6,7 @@ module Climb
   , Completion
   , OptionCommands
   , ReplDef (..)
-  , ReplExc (..)
+  , CommandExc (..)
   , bareCommand
   , runReplDef
   ) where
@@ -29,20 +29,20 @@ type OptionCommands m = [(ByteString, (ByteString, Command m))]
 
 type Completion m = ByteString -> m [ByteString]
 
-data ReplExc
+data CommandExc
   = ExpectedNoInputError
-  | MissingCommandError ByteString
+  | MissingCommandError !ByteString
   deriving (Eq, Show, Typeable)
 
-instance Exception ReplExc
+instance Exception CommandExc
 
 data ReplDef m =
   ReplDef
-    { _rdGreeting :: ByteString
-    , _rdPrompt :: ByteString
-    , _rdOptionCommands :: OptionCommands m
-    , _rdExecCommand :: Command m
-    , _rdCompletion :: Completion m
+    { _rdGreeting :: !ByteString
+    , _rdPrompt :: !ByteString
+    , _rdOptionCommands :: !(OptionCommands m)
+    , _rdExecCommand :: !(Command m)
+    , _rdCompletion :: !(Completion m)
     }
 
 assertEmpty :: MonadThrow m => ByteString -> m ()
