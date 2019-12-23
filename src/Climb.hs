@@ -3,11 +3,14 @@
 -- | Building blocks for a GHCI-like REPL with colon-commands.
 module Climb
   ( Command
+  , CommandExc (..)
   , Completion
   , OptionCommands
   , ReplDef (..)
-  , CommandExc (..)
+  , ReplDirective (..)
   , bareCommand
+  , noOptionCommands
+  , noCompletion
   , runReplDef
   ) where
 
@@ -55,6 +58,12 @@ data ReplDef m =
     , _rdExecCommand :: !(Command m)
     , _rdCompletion :: !(Completion m)
     }
+
+noOptionCommands :: OptionCommands m
+noOptionCommands = Map.empty
+
+noCompletion :: Applicative m => Completion m
+noCompletion = const (pure [])
 
 assertEmpty :: MonadThrow m => Text -> m ()
 assertEmpty input = unless (Text.null input) (throwM ExpectedNoInputError)
