@@ -1,5 +1,5 @@
 name:                climb
-version:             0.1.0
+version:             0.3.0
 github:              "ejconlon/climb"
 license:             BSD3
 author:              "Eric Conlon"
@@ -12,12 +12,14 @@ extra-source-files:
 description: Please see the README on GitHub at <https://github.com/ejconlon/climb#readme>
 
 dependencies:
-- base >= 4.12
-- bytestring >= 0.10
-- exceptions >= 0.10
-- mtl >= 2.2
-- unliftio-core >= 0.1
-- linenoise >= 0.2
+- base >=4.12
+- bytestring >=0.10
+- containers >=0.6
+- exceptions >=0.10
+- linenoise >=0.3
+- mtl >=2.2
+- text >=1.2
+- unliftio-core >=0.1
 
 ghc-options:
 - -Wall

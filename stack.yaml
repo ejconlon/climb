@@ -1,8 +1,8 @@
-resolver: lts-14.16
+resolver: lts-14.18
 
 packages:
 - .
 
 extra-deps:
 - github: ejconlon/haskell-linenoise
-  commit: a4cbc07dfe3504812babf269e867cf29b8952675
+  commit: bb2b513965670cad274677e50623641d3d426092

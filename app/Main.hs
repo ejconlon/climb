@@ -21,7 +21,7 @@ runRepl :: Repl a -> IO a
 runRepl r = fmap fst (runReplT (unRepl r) () ())
 
 options :: OptionCommands Repl
-options = []
+options = mempty
 
 exec :: Command Repl
 exec = const (pure ReplContinue)
