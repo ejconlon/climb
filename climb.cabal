@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 979872c2574bd0eea71759cc5ef471cf826798be4ace5ce0a06de6c47d418e87
+-- hash: f959e3804f6a76af277dfee45863cf2b2521ec7733ce877dac7398aa36e9438b
 
 name:           climb
 version:        0.3.1
@@ -35,7 +35,7 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -fno-warn-unused-top-binds
   build-depends:
-      base >=4.12
+      base >=4.12 && <5
     , bytestring >=0.10
     , containers >=0.6
     , exceptions >=0.10
@@ -53,7 +53,7 @@ executable climb-demo
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -fno-warn-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.12
+      base >=4.12 && <5
     , bytestring >=0.10
     , climb
     , containers >=0.6
