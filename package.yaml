@@ -18,7 +18,7 @@ dependencies:
 - bytestring >=0.10
 - containers >=0.6
 - exceptions >=0.10
-- linenoise >=0.3
+- linenoise >=0.3.1
 - mtl >=2.2
 - text >=1.2
 - unliftio-core >=0.1

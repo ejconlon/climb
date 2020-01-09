@@ -5,19 +5,12 @@
 
 packages:
 - completed:
-    size: 20392
-    url: https://github.com/ejconlon/haskell-linenoise/archive/bb2b513965670cad274677e50623641d3d426092.tar.gz
-    cabal-file:
-      size: 1943
-      sha256: e74f9c55564c291deade225ccf61b4405aa2f20a31505ec50897c29aa1606027
-    name: linenoise
-    version: 0.3.0
-    sha256: 8dd1d5700b44268e57e47976352467bca876e4685f0272d30452576cc3d62610
+    hackage: linenoise-0.3.1@sha256:400cba96fa1225f3cc002bccce6f8fc969bb0070483259c812e977c79fcaef6d,2082
     pantry-tree:
-      size: 1216
-      sha256: 88a4f755edc5388a531495c46583cb426345912bcdafd08436224d341c592988
+      size: 680
+      sha256: 37b53eb4b9df9b4d90a7760d3eb2cf9903808af41d9412c31f187c3326cfec5d
   original:
-    url: https://github.com/ejconlon/haskell-linenoise/archive/bb2b513965670cad274677e50623641d3d426092.tar.gz
+    hackage: linenoise-0.3.1
 snapshots:
 - completed:
     size: 524154
