@@ -5,6 +5,8 @@ license:             BSD3
 author:              "Eric Conlon"
 maintainer:          "ejconlon@gmail.com"
 copyright:           "(c) 2019 Eric Conlon"
+category:            User Interfaces
+synopsis:            Building blocks for a GHCi-like REPL with colon-commands
 
 extra-source-files:
 - README.md
