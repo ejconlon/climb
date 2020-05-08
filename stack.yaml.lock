@@ -3,17 +3,10 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages:
-- completed:
-    hackage: linenoise-0.3.1@sha256:400cba96fa1225f3cc002bccce6f8fc969bb0070483259c812e977c79fcaef6d,2082
-    pantry-tree:
-      size: 680
-      sha256: 37b53eb4b9df9b4d90a7760d3eb2cf9903808af41d9412c31f187c3326cfec5d
-  original:
-    hackage: linenoise-0.3.1
+packages: []
 snapshots:
 - completed:
-    size: 488576
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/15/0.yaml
-    sha256: e4b6a87b47ec1cf63a7f1a0884a3b276fce2b0d174a10e8753c4f618e7983568
-  original: lts-15.0
+    size: 494638
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/15/11.yaml
+    sha256: 5747328cdcbb8fe9c96fc048b5566167c80dd176a41b52d3b363058e3cc1dc5d
+  original: lts-15.11

@@ -1,7 +1,4 @@
-resolver: lts-15.0
+resolver: lts-15.11
 
 packages:
 - .
-
-extra-deps:
-- linenoise-0.3.1
