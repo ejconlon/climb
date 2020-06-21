@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f959e3804f6a76af277dfee45863cf2b2521ec7733ce877dac7398aa36e9438b
+-- hash: c66fef7bc4a3cf1fb4aabe555c63296efdc91545dc47a07e71c88de7db219438
 
 name:           climb
-version:        0.3.1
+version:        0.3.2
 synopsis:       Building blocks for a GHCi-like REPL with colon-commands
 description:    Please see the README on GitHub at <https://github.com/ejconlon/climb#readme>
 category:       User Interfaces
@@ -36,13 +36,13 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -fno-warn-unused-top-binds
   build-depends:
       base >=4.12 && <5
-    , bytestring >=0.10
-    , containers >=0.6
-    , exceptions >=0.10
-    , linenoise >=0.3.1
-    , mtl >=2.2
-    , text >=1.2
-    , unliftio-core >=0.1
+    , bytestring >=0.10 && <1
+    , containers >=0.6 && <1
+    , exceptions >=0.10 && <1
+    , linenoise >=0.3.1 && <1
+    , mtl >=2.2 && <3
+    , text >=1.2 && <2
+    , unliftio-core >=0.1 && <1
   default-language: Haskell2010
 
 executable climb-demo
@@ -54,12 +54,12 @@ executable climb-demo
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -fno-warn-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.12 && <5
-    , bytestring >=0.10
+    , bytestring >=0.10 && <1
     , climb
-    , containers >=0.6
-    , exceptions >=0.10
-    , linenoise >=0.3.1
-    , mtl >=2.2
-    , text >=1.2
-    , unliftio-core >=0.1
+    , containers >=0.6 && <1
+    , exceptions >=0.10 && <1
+    , linenoise >=0.3.1 && <1
+    , mtl >=2.2 && <3
+    , text >=1.2 && <2
+    , unliftio-core >=0.1 && <1
   default-language: Haskell2010

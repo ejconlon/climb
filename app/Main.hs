@@ -3,10 +3,10 @@
 
 module Main where
 
+import Climb
 import Control.Monad.Catch (MonadThrow)
 import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.IO.Unlift (MonadUnliftIO (..), UnliftIO (..))
-import Climb
 import Linenoise
 
 newtype Repl a = Repl { unRepl :: ReplT () () IO a }

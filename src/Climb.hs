@@ -21,12 +21,12 @@ import Control.Monad.Fix (fix)
 import Control.Monad.IO.Class (MonadIO (..))
 import Control.Monad.IO.Unlift (MonadUnliftIO)
 import Data.Foldable (for_)
-import Data.Typeable (Typeable)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Text (Text)
 import qualified Data.Text as Text
 import qualified Data.Text.IO as TIO
+import Data.Typeable (Typeable)
 import Linenoise.Repl (ReplDirective (..), replM)
 
 -- | A 'Command' takes some input, performs some effect, and returns a directive (continue or quit).
@@ -88,7 +88,7 @@ defaultOptions opts = Map.fromList
     ]
 
 outerCommand :: MonadThrow m => OptionCommands m -> Command m -> Command m
-outerCommand opts exec = \input ->
+outerCommand opts exec input =
   case Text.uncons input of
     Just (':', rest) -> do
       let (name, subInput) = Text.break (==' ') rest
