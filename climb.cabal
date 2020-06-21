@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c66fef7bc4a3cf1fb4aabe555c63296efdc91545dc47a07e71c88de7db219438
+-- hash: e47ca468edac8fb8de27be29aa1586accddc79a5cae5dd00f6ce8565478032b1
 
 name:           climb
 version:        0.3.2
@@ -39,7 +39,7 @@ library
     , bytestring >=0.10 && <1
     , containers >=0.6 && <1
     , exceptions >=0.10 && <1
-    , linenoise >=0.3.1 && <1
+    , linenoise >=0.3.2 && <1
     , mtl >=2.2 && <3
     , text >=1.2 && <2
     , unliftio-core >=0.1 && <1
@@ -58,7 +58,7 @@ executable climb-demo
     , climb
     , containers >=0.6 && <1
     , exceptions >=0.10 && <1
-    , linenoise >=0.3.1 && <1
+    , linenoise >=0.3.2 && <1
     , mtl >=2.2 && <3
     , text >=1.2 && <2
     , unliftio-core >=0.1 && <1
