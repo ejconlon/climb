@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e47ca468edac8fb8de27be29aa1586accddc79a5cae5dd00f6ce8565478032b1
+-- hash: ef9b6c6a8b9065c4429bdbdaf4fb5f06470af3787a069de51b48eb6026c5631f
 
 name:           climb
-version:        0.3.2
+version:        0.3.3
 synopsis:       Building blocks for a GHCi-like REPL with colon-commands
 description:    Please see the README on GitHub at <https://github.com/ejconlon/climb#readme>
 category:       User Interfaces

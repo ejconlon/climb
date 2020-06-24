@@ -6,16 +6,14 @@ module Main where
 import Climb
 import Control.Monad.Catch (MonadThrow)
 import Control.Monad.IO.Class (MonadIO)
-import Control.Monad.IO.Unlift (MonadUnliftIO (..), UnliftIO (..))
+import Control.Monad.IO.Unlift (MonadUnliftIO (..), wrappedWithRunInIO)
 import Linenoise
 
 newtype Repl a = Repl { unRepl :: ReplT () () IO a }
   deriving (Functor, Applicative, Monad, MonadIO, MonadThrow)
 
 instance MonadUnliftIO Repl where
-  askUnliftIO = do
-    UnliftIO run <- Repl askUnliftIO
-    pure (UnliftIO (run . unRepl))
+  withRunInIO = wrappedWithRunInIO Repl unRepl
 
 runRepl :: Repl a -> IO a
 runRepl r = fmap fst (runReplT (unRepl r) () ())
