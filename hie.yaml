@@ -1,0 +1,10 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "climb:lib"
+
+    - path: "./app/Main.hs"
+      component: "climb:exe:climb-demo"
+
+    - path: "./app/Paths_climb.hs"
+      component: "climb:exe:climb-demo"
