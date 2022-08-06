@@ -1,41 +1,62 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Main where
 
 import Climb
-import Control.Monad.Catch (MonadThrow)
-import Control.Monad.IO.Class (MonadIO)
-import Control.Monad.IO.Unlift (MonadUnliftIO (..), wrappedWithRunInIO)
-import Linenoise
+import Control.Exception (Exception)
+import Control.Monad.Catch (MonadCatch, MonadThrow (..))
+import Control.Monad.IO.Class (MonadIO (..))
+import Control.Monad.IO.Unlift (MonadUnliftIO (..))
+import Control.Monad.Reader (MonadReader (..), ReaderT (..), asks)
+import qualified Data.Map.Strict as Map
+import qualified Data.Text as T
+import qualified Data.Text.IO as TIO
+import Text.Read (readMaybe)
 
-newtype Repl a = Repl { unRepl :: ReplT () () IO a }
-  deriving (Functor, Applicative, Monad, MonadIO, MonadThrow)
+newtype BadGuessErr = BadGuessErr (Maybe Int)
+  deriving stock (Eq, Show)
 
-instance MonadUnliftIO Repl where
-  withRunInIO = wrappedWithRunInIO Repl unRepl
+instance Exception BadGuessErr
 
-runRepl :: Repl a -> IO a
-runRepl r = fmap fst (runReplT (unRepl r) () ())
+data ReplEnv = ReplEnv
+  { reMagicNumber :: !Int
+  } deriving stock (Eq, Show)
 
-options :: OptionCommands Repl
-options = mempty
+newtype ReplM a = ReplM { unReplM :: ReaderT ReplEnv IO a }
+  deriving newtype (Functor, Applicative, Monad, MonadReader ReplEnv, MonadIO, MonadUnliftIO, MonadThrow, MonadCatch)
 
-exec :: Command Repl
-exec = const (pure ReplContinue)
+runReplM :: ReplM a -> ReplEnv -> IO a
+runReplM = runReaderT . unReplM
 
-completion :: Completion Repl
-completion = const (pure [])
+guessCommand :: Command ReplM
+guessCommand input = do
+  num <- asks reMagicNumber
+  let mayGuess = readMaybe (T.unpack input)
+  if readMaybe (T.unpack input) == Just num
+    then ReplContinue <$ liftIO (putStrLn "You guessed it!")
+    else throwM (BadGuessErr mayGuess)
 
-replDef :: ReplDef Repl
+options :: OptionCommands ReplM
+options = Map.fromList [("guess", ("guess a number", guessCommand))]
+
+exec :: Command ReplM
+exec input = liftIO $ do
+  putStr "You said: "
+  TIO.putStrLn input
+  pure ReplContinue
+
+completion :: Completion ReplM
+completion _ = pure []
+
+replDef :: ReplDef ReplM
 replDef = ReplDef
-  { _rdOnInterrupt = ReplContinue
-  , _rdGreeting = "Hello, REPL!"
-  , _rdPrompt = "> "
-  , _rdOptionCommands = options
-  , _rdExecCommand = exec
-  , _rdCompletion = completion
+  { rdOnInterrupt = ReplContinue
+  , rdGreeting = "Hello, REPL!"
+  , rdPrompt = "> "
+  , rdOptionCommands = options
+  , rdExecCommand = exec
+  , rdCompletion = completion
   }
 
 main :: IO ()
-main = runRepl (runReplDef replDef)
+main = runReplM (runReplDef replDef) (ReplEnv 42)

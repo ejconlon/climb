@@ -3,7 +3,7 @@
 -- | Building blocks for a GHCI-like REPL with colon-commands.
 module Climb
   ( Command
-  , CommandExc (..)
+  , CommandErr (..)
   , Completion
   , OptionCommands
   , ReplDef (..)
@@ -14,9 +14,9 @@ module Climb
   , runReplDef
   ) where
 
-import Control.Exception (Exception)
+import Control.Exception (Exception (..), SomeAsyncException (..), SomeException)
 import Control.Monad (unless)
-import Control.Monad.Catch (MonadThrow (..))
+import Control.Monad.Catch (MonadCatch, MonadThrow (..), catchIf)
 import Control.Monad.Fix (fix)
 import Control.Monad.IO.Class (MonadIO (..))
 import Control.Monad.IO.Unlift (MonadUnliftIO)
@@ -26,7 +26,6 @@ import qualified Data.Map.Strict as Map
 import Data.Text (Text)
 import qualified Data.Text as Text
 import qualified Data.Text.IO as TIO
-import Data.Typeable (Typeable)
 import Linenoise.Repl (ReplDirective (..), replM)
 
 -- | A 'Command' takes some input, performs some effect, and returns a directive (continue or quit).
@@ -39,24 +38,24 @@ type OptionCommands m = Map Text (Text, Command m)
 type Completion m = Text -> m [Text]
 
 -- | Sometimes things go wrong...
-data CommandExc
-  = ExpectedNoInputError
+data CommandErr
+  = CommandErrExpectedNoInput
   -- ^ An option 'Command' got input when it expected None
-  | MissingCommandError !Text
+  | CommandErrUnknownCommand !Text
   -- ^ An option 'Command' was not found by name.
-  deriving (Eq, Show, Typeable)
+  deriving stock (Eq, Show)
 
-instance Exception CommandExc
+instance Exception CommandErr
 
 -- | Defines a REPL with commands, options, and completion.
 data ReplDef m =
   ReplDef
-    { _rdOnInterrupt :: !ReplDirective
-    , _rdGreeting :: !Text
-    , _rdPrompt :: !Text
-    , _rdOptionCommands :: !(OptionCommands m)
-    , _rdExecCommand :: !(Command m)
-    , _rdCompletion :: !(Completion m)
+    { rdOnInterrupt :: !ReplDirective
+    , rdGreeting :: !Text
+    , rdPrompt :: !Text
+    , rdOptionCommands :: !(OptionCommands m)
+    , rdExecCommand :: !(Command m)
+    , rdCompletion :: !(Completion m)
     }
 
 noOptionCommands :: OptionCommands m
@@ -66,7 +65,7 @@ noCompletion :: Applicative m => Completion m
 noCompletion = const (pure [])
 
 assertEmpty :: MonadThrow m => Text -> m ()
-assertEmpty input = unless (Text.null input) (throwM ExpectedNoInputError)
+assertEmpty input = unless (Text.null input) (throwM CommandErrExpectedNoInput)
 
 -- | Helps you define commands that expect no input.
 bareCommand :: MonadThrow m => m ReplDirective -> Command m
@@ -93,15 +92,31 @@ outerCommand opts exec input =
     Just (':', rest) -> do
       let (name, subInput) = Text.break (==' ') rest
       case Map.lookup name opts of
-        Nothing -> throwM (MissingCommandError name)
+        Nothing -> throwM (CommandErrUnknownCommand name)
         Just (_, command) -> command (Text.drop 1 subInput)
     _ -> exec input
 
+isUserErr :: SomeException -> Bool
+isUserErr x =
+  case fromException x of
+    Just (SomeAsyncException _) -> False
+    _ -> True
+
+catchUserErr :: MonadCatch m => m a -> (SomeException -> m a) -> m a
+catchUserErr = catchIf isUserErr
+
+handleUserErr :: (MonadCatch m, MonadIO m) => Command m -> Command m
+handleUserErr action input = catchUserErr (action input) $ \err -> do
+  liftIO (TIO.putStr "Caught error: ")
+  liftIO (print err)
+  pure ReplContinue
+
 -- | Runs a REPL as defined.
-runReplDef :: (MonadThrow m, MonadUnliftIO m) => ReplDef m -> m ()
+runReplDef :: (MonadCatch m, MonadUnliftIO m) => ReplDef m -> m ()
 runReplDef (ReplDef onInterrupt greeting prompt opts exec comp) = do
   let allOpts = fix (\c -> defaultOptions c <> opts)
       action = outerCommand allOpts exec
+      handledAction = handleUserErr action
   liftIO (TIO.putStrLn greeting)
   liftIO (TIO.putStrLn "Enter `:quit` to exit or `:help` to see all commands.")
-  replM onInterrupt prompt action comp
+  replM onInterrupt prompt handledAction comp

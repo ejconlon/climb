@@ -1,5 +1,5 @@
 name:                climb
-version:             0.3.3
+version:             0.4.0
 github:              "ejconlon/climb"
 license:             BSD3
 author:              "Eric Conlon"
@@ -32,6 +32,10 @@ ghc-options:
 - -Wpartial-fields
 - -Wredundant-constraints
 - -fno-warn-unused-top-binds
+
+default-extensions:
+- DerivingStrategies
+- GeneralizedNewtypeDeriving
 
 library:
   source-dirs: src

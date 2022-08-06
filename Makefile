@@ -1,5 +1,5 @@
 include Makefile.base
 
 .PHONY: demo
-demo: build
-	stack exec -- climb-demo
+demo:
+	stack build --test --no-run-tests --exec climb-demo

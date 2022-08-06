@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ef9b6c6a8b9065c4429bdbdaf4fb5f06470af3787a069de51b48eb6026c5631f
+-- hash: 13958ca7b14089cca51ac048a8cea2d64d6e8e460fa1cddae5a3d4f5bd15ec68
 
 name:           climb
-version:        0.3.3
+version:        0.4.0
 synopsis:       Building blocks for a GHCi-like REPL with colon-commands
 description:    Please see the README on GitHub at <https://github.com/ejconlon/climb#readme>
 category:       User Interfaces
@@ -33,6 +33,9 @@ library
       Paths_climb
   hs-source-dirs:
       src
+  default-extensions:
+      DerivingStrategies
+      GeneralizedNewtypeDeriving
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -fno-warn-unused-top-binds
   build-depends:
       base >=4.12 && <5
@@ -51,6 +54,9 @@ executable climb-demo
       Paths_climb
   hs-source-dirs:
       app
+  default-extensions:
+      DerivingStrategies
+      GeneralizedNewtypeDeriving
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -fno-warn-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.12 && <5
