@@ -12,6 +12,7 @@ module Climb
   , noOptionCommands
   , noCompletion
   , runReplDef
+  , stepReplDef
   ) where
 
 import Control.Exception (Exception (..), SomeAsyncException (..), SomeException)
@@ -120,3 +121,8 @@ runReplDef (ReplDef onInterrupt greeting prompt opts exec comp) = do
   liftIO (TIO.putStrLn greeting)
   liftIO (TIO.putStrLn "Enter `:quit` to exit or `:help` to see all commands.")
   replM onInterrupt prompt handledAction comp
+
+-- | Processes a single line of input. Useful for testing.
+-- (Note that this does not handle default option commands.)
+stepReplDef :: MonadThrow m => ReplDef m -> Text -> m ReplDirective
+stepReplDef (ReplDef _ _ _ opts exec _) = outerCommand opts exec
