@@ -13,7 +13,8 @@ module Climb
   , noCompletion
   , runReplDef
   , stepReplDef
-  ) where
+  )
+where
 
 import Control.Exception (Exception (..), SomeAsyncException (..), SomeException)
 import Control.Monad (unless)
@@ -40,24 +41,23 @@ type Completion m = Text -> m [Text]
 
 -- | Sometimes things go wrong...
 data CommandErr
-  = CommandErrExpectedNoInput
-  -- ^ An option 'Command' got input when it expected None
-  | CommandErrUnknownCommand !Text
-  -- ^ An option 'Command' was not found by name.
+  = -- | An option 'Command' got input when it expected None
+    CommandErrExpectedNoInput
+  | -- | An option 'Command' was not found by name.
+    CommandErrUnknownCommand !Text
   deriving stock (Eq, Show)
 
 instance Exception CommandErr
 
 -- | Defines a REPL with commands, options, and completion.
-data ReplDef m =
-  ReplDef
-    { rdOnInterrupt :: !ReplDirective
-    , rdGreeting :: !Text
-    , rdPrompt :: !Text
-    , rdOptionCommands :: !(OptionCommands m)
-    , rdExecCommand :: !(Command m)
-    , rdCompletion :: !(Completion m)
-    }
+data ReplDef m = ReplDef
+  { rdOnInterrupt :: !ReplDirective
+  , rdGreeting :: !Text
+  , rdPrompt :: !Text
+  , rdOptionCommands :: !(OptionCommands m)
+  , rdExecCommand :: !(Command m)
+  , rdCompletion :: !(Completion m)
+  }
 
 noOptionCommands :: OptionCommands m
 noOptionCommands = Map.empty
@@ -82,7 +82,8 @@ helpCommand opts = bareCommand $ do
   pure ReplContinue
 
 defaultOptions :: (MonadThrow m, MonadIO m) => OptionCommands m -> OptionCommands m
-defaultOptions opts = Map.fromList
+defaultOptions opts =
+  Map.fromList
     [ ("quit", ("quit", quitCommand))
     , ("help", ("describe all commands", helpCommand opts))
     ]
@@ -91,7 +92,7 @@ outerCommand :: MonadThrow m => OptionCommands m -> Command m -> Command m
 outerCommand opts exec input =
   case Text.uncons input of
     Just (':', rest) -> do
-      let (name, subInput) = Text.break (==' ') rest
+      let (name, subInput) = Text.break (== ' ') rest
       case Map.lookup name opts of
         Nothing -> throwM (CommandErrUnknownCommand name)
         Just (_, command) -> command (Text.drop 1 subInput)

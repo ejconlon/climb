@@ -18,11 +18,12 @@ newtype BadGuessErr = BadGuessErr (Maybe Int)
 
 instance Exception BadGuessErr
 
-data ReplEnv = ReplEnv
-  { reMagicNumber :: !Int
-  } deriving stock (Eq, Show)
+newtype ReplEnv = ReplEnv
+  { reMagicNumber :: Int
+  }
+  deriving stock (Eq, Show)
 
-newtype ReplM a = ReplM { unReplM :: ReaderT ReplEnv IO a }
+newtype ReplM a = ReplM {unReplM :: ReaderT ReplEnv IO a}
   deriving newtype (Functor, Applicative, Monad, MonadReader ReplEnv, MonadIO, MonadUnliftIO, MonadThrow, MonadCatch)
 
 runReplM :: ReplM a -> ReplEnv -> IO a
@@ -49,14 +50,15 @@ completion :: Completion ReplM
 completion _ = pure []
 
 replDef :: ReplDef ReplM
-replDef = ReplDef
-  { rdOnInterrupt = ReplContinue
-  , rdGreeting = "Hello, REPL!"
-  , rdPrompt = "> "
-  , rdOptionCommands = options
-  , rdExecCommand = exec
-  , rdCompletion = completion
-  }
+replDef =
+  ReplDef
+    { rdOnInterrupt = ReplContinue
+    , rdGreeting = "Hello, REPL!"
+    , rdPrompt = "> "
+    , rdOptionCommands = options
+    , rdExecCommand = exec
+    , rdCompletion = completion
+    }
 
 main :: IO ()
 main = runReplM (runReplDef replDef) (ReplEnv 42)
