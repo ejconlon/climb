@@ -62,17 +62,17 @@ data ReplDef m = ReplDef
 noOptionCommands :: OptionCommands m
 noOptionCommands = Map.empty
 
-noCompletion :: Applicative m => Completion m
+noCompletion :: (Applicative m) => Completion m
 noCompletion = const (pure [])
 
-assertEmpty :: MonadThrow m => Text -> m ()
+assertEmpty :: (MonadThrow m) => Text -> m ()
 assertEmpty input = unless (Text.null input) (throwM CommandErrExpectedNoInput)
 
 -- | Helps you define commands that expect no input.
-bareCommand :: MonadThrow m => m ReplDirective -> Command m
+bareCommand :: (MonadThrow m) => m ReplDirective -> Command m
 bareCommand act input = assertEmpty input >> act
 
-quitCommand :: MonadThrow m => Command m
+quitCommand :: (MonadThrow m) => Command m
 quitCommand = bareCommand (pure ReplQuit)
 
 helpCommand :: (MonadThrow m, MonadIO m) => OptionCommands m -> Command m
@@ -88,7 +88,7 @@ defaultOptions opts =
     , ("help", ("describe all commands", helpCommand opts))
     ]
 
-outerCommand :: MonadThrow m => OptionCommands m -> Command m -> Command m
+outerCommand :: (MonadThrow m) => OptionCommands m -> Command m -> Command m
 outerCommand opts exec input =
   case Text.uncons input of
     Just (':', rest) -> do
@@ -104,7 +104,7 @@ isUserErr x =
     Just (SomeAsyncException _) -> False
     _ -> True
 
-catchUserErr :: MonadCatch m => m a -> (SomeException -> m a) -> m a
+catchUserErr :: (MonadCatch m) => m a -> (SomeException -> m a) -> m a
 catchUserErr = catchIf isUserErr
 
 handleUserErr :: (MonadCatch m, MonadIO m) => Command m -> Command m
@@ -125,5 +125,5 @@ runReplDef (ReplDef onInterrupt greeting prompt opts exec comp) = do
 
 -- | Processes a single line of input. Useful for testing.
 -- (Note that this does not handle default option commands.)
-stepReplDef :: MonadThrow m => ReplDef m -> Text -> m ReplDirective
+stepReplDef :: (MonadThrow m) => ReplDef m -> Text -> m ReplDirective
 stepReplDef (ReplDef _ _ _ opts exec _) = outerCommand opts exec

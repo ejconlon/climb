@@ -5,15 +5,15 @@
 
 packages:
 - completed:
-    hackage: linenoise-0.4.0@sha256:16bc53ca89c5c46dae47c098a345402f5b85be1e47527b76f86f9b15563d915b,2142
+    hackage: linenoise-0.4.2@sha256:24541b3a8283fb906e8ab46e6e3ecddee4faac3753ab23d8cebbcb9d657f431d,2206
     pantry-tree:
-      sha256: 07483770608e8a0a776a9e2416a15c837ff355e44ebce10b75fd56b1f9697473
+      sha256: 78e9e76a2da6413a2e64a3951e23e682c8cfd1e9629440a3c9c4b504ef08e8c7
       size: 634
   original:
-    hackage: linenoise-0.4.0
+    hackage: linenoise-0.4.2
 snapshots:
 - completed:
-    sha256: 8b211c5a6aad3787e023dfddaf7de7868968e4f240ecedf14ad1c5b2199046ca
-    size: 714097
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/22/4.yaml
-  original: lts-22.4
+    sha256: 9444fadfa30b67a93080254d53872478c087592ad64443e47c546cdcd13149ae
+    size: 678857
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/23/0.yaml
+  original: lts-23.0
