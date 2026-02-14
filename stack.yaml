@@ -1,4 +1,4 @@
-resolver: lts-23.0
+resolver: lts-24.30
 
 ghc-options:
   "$everything": -haddock
@@ -7,4 +7,5 @@ packages:
 - .
 
 extra-deps:
-- linenoise-0.4.2
+- linenoise-0.5.0
+

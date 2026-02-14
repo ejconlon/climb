@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.37.0.
+-- This file has been generated from package.yaml by hpack version 0.39.1.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 62b124d5c5b6fc6ffe423ff59768627f4c9fcad2d95b22f794f79d35e314d807
+-- hash: b29667bdc4492f0f51fe1df41c406056b9bbde355adb6a41eb975a30c7e7af10
 
 name:           climb
-version:        0.5.1
+version:        0.6.0
 synopsis:       Building blocks for a GHCi-like REPL with colon-commands
 description:    Please see the README on GitHub at <https://github.com/ejconlon/climb#readme>
 category:       User Interfaces
@@ -42,7 +42,7 @@ library
     , bytestring >=0.10 && <1
     , containers >=0.6 && <1
     , exceptions >=0.10 && <1
-    , linenoise >=0.4.2 && <1
+    , linenoise >=0.5.0 && <1
     , mtl >=2.2 && <3
     , text >=1.2 && <3
     , unliftio-core >=0.1 && <1
@@ -64,7 +64,7 @@ executable climb-demo
     , climb
     , containers >=0.6 && <1
     , exceptions >=0.10 && <1
-    , linenoise >=0.4.2 && <1
+    , linenoise >=0.5.0 && <1
     , mtl >=2.2 && <3
     , text >=1.2 && <3
     , unliftio-core >=0.1 && <1
