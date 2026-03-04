@@ -5,12 +5,12 @@
 
 packages:
 - completed:
-    hackage: linenoise-0.5.0@sha256:ef289b54186751c9174771b1ee57db0d794e7ded990c3c889d6ff234c5370ac7,2206
+    hackage: linenoise-0.6.0@sha256:951ebb8d335a25b856b7aa82e002a8121d69e88b6796ba781251121a0aad2d40,2206
     pantry-tree:
-      sha256: 0ca4aba1d81e68fd1f399e168b34283e297dbc56b04800c15b09ecb44076c547
+      sha256: fb0434f86756685adf81f72e2bc4b55b6d828fa86d28adeaea403e1359c5301b
       size: 634
   original:
-    hackage: linenoise-0.5.0
+    hackage: linenoise-0.6.0
 snapshots:
 - completed:
     sha256: d141b089a21d9873b5febdf7c53296fb799b7fb602b9d3b003c022a81cc1cc01

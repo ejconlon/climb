@@ -51,7 +51,8 @@ instance Exception CommandErr
 
 -- | Defines a REPL with commands, options, and completion.
 data ReplDef m = ReplDef
-  { rdOnInterrupt :: !ReplDirective
+  { rdOnInterrupt :: !(m ReplDirective)
+  , rdOnEof :: !(m ReplDirective)
   , rdGreeting :: !Text
   , rdPrompt :: !Text
   , rdOptionCommands :: !(OptionCommands m)
@@ -115,15 +116,15 @@ handleUserErr action input = catchUserErr (action input) $ \err -> do
 
 -- | Runs a REPL as defined.
 runReplDef :: (MonadCatch m, MonadUnliftIO m) => ReplDef m -> m ()
-runReplDef (ReplDef onInterrupt greeting prompt opts exec comp) = do
+runReplDef (ReplDef onInterrupt onEof greeting prompt opts exec comp) = do
   let allOpts = fix (\c -> defaultOptions c <> opts)
       action = outerCommand allOpts exec
       handledAction = handleUserErr action
   liftIO (TIO.putStrLn greeting)
   liftIO (TIO.putStrLn "Enter `:quit` to exit or `:help` to see all commands.")
-  replM onInterrupt prompt handledAction comp
+  replM onInterrupt onEof prompt handledAction comp
 
 -- | Processes a single line of input. Useful for testing.
 -- (Note that this does not handle default option commands.)
 stepReplDef :: (MonadThrow m) => ReplDef m -> Text -> m ReplDirective
-stepReplDef (ReplDef _ _ _ opts exec _) = outerCommand opts exec
+stepReplDef (ReplDef _ _ _ _ opts exec _) = outerCommand opts exec

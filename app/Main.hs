@@ -52,7 +52,8 @@ completion _ = pure []
 replDef :: ReplDef ReplM
 replDef =
   ReplDef
-    { rdOnInterrupt = ReplContinue
+    { rdOnInterrupt = pure ReplContinue
+    , rdOnEof = pure ReplQuit
     , rdGreeting = "Hello, REPL!"
     , rdPrompt = "> "
     , rdOptionCommands = options
