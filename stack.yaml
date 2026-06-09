@@ -1,4 +1,4 @@
-resolver: lts-24.30
+resolver: nightly-2026-06-07
 
 ghc-options:
   "$everything": -haddock
@@ -7,5 +7,4 @@ packages:
 - .
 
 extra-deps:
-- linenoise-0.6.0
-
+- linenoise-0.7.0
